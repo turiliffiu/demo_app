@@ -75,20 +75,34 @@ TEMPLATES = [
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
 # Database - PostgreSQL
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASS'),
-        'HOST': env('DB_HOST', default='localhost'),
-        'PORT': env.int('DB_PORT', default=5432),
-        'CONN_MAX_AGE': 600,
-        'OPTIONS': {
-            'connect_timeout': 10,
-        },
+# Database configuration - supporta sia PostgreSQL che SQLite
+DB_ENGINE = env('DB_ENGINE', default='django.db.backends.postgresql')
+DB_NAME = env('DB_NAME')
+
+# Per SQLite, i campi USER/PASSWORD/HOST/PORT non servono
+if 'sqlite3' in DB_ENGINE:
+    DATABASES = {
+        'default': {
+            'ENGINE': DB_ENGINE,
+            'NAME': DB_NAME,
+        }
     }
-}
+else:
+    # PostgreSQL configuration
+    DATABASES = {
+        'default': {
+            'ENGINE': DB_ENGINE,
+            'NAME': DB_NAME,
+            'USER': env('DB_USER', default=''),
+            'PASSWORD': env('DB_PASS', default=''),
+            'HOST': env('DB_HOST', default='localhost'),
+            'PORT': env.int('DB_PORT', default=5432),
+            'CONN_MAX_AGE': 600,
+            'OPTIONS': {
+                'connect_timeout': 10,
+            },
+        }
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
