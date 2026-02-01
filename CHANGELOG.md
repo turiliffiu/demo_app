@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.1] - 2026-02-01
+
+### Fixed
+- **CRITICAL**: Added initial migrations for core app (`apps/core/migrations/0001_initial.py`)
+- **CRITICAL**: Created `static/css/` and `static/js/` directories to prevent warnings
+- Fixed `OperationalError: no such table: core_userprofile` on first setup
+- Fixed `.gitignore` to properly track static directory structure
+- Fixed staticfiles warning about missing static directory
+
+### Technical Details
+This patch ensures the template works immediately after `git clone` without requiring manual `makemigrations`. The UserProfile table is now created automatically during initial `migrate`.
+
 ## [1.2.0] - 2026-02-01
 
 ### Fixed
@@ -70,6 +82,7 @@ DB_PORT=5432
 - AUTHORS.md and CHANGELOG.md
 - Verification script
 
+[1.2.1]: https://github.com/turiliffiu/demo_app/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/turiliffiu/demo_app/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/turiliffiu/demo_app/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/turiliffiu/demo_app/releases/tag/v1.0.0
